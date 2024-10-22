@@ -5,7 +5,7 @@
 
       <div class="sheet__content dough">
         <label
-          v-for="doughType in doughItems"
+          v-for="doughType in items"
           :key="doughType.id"
           class="dough__input"
           :class="`dough__input--${doughType.value}`"
@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
   modelValue: {
     type: String,
     default: "",
@@ -38,6 +38,12 @@ defineProps({
     default: () => [],
   },
 });
+
+const onInput = (evt) => {
+  console.log('value', evt.target.value)
+}
+
+console.log('modelValue', props.modelValue)
 
 const emit = defineEmits(["update:modelValue"]);
 </script>
@@ -116,6 +122,52 @@ const emit = defineEmits(["update:modelValue"]);
     &:checked + b::before {
       box-shadow: $shadow-large;
     }
+  }
+}
+
+//------------------------sheet---------------------------//
+
+.sheet {
+  padding-top: 15px;
+
+  border-radius: 8px;
+  background-color: $white;
+  box-shadow: $shadow-light;
+}
+
+.sheet__title {
+  padding-right: 18px;
+  padding-left: 18px;
+}
+
+.sheet__content {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  margin-top: 8px;
+  padding-top: 18px;
+  padding-right: 18px;
+  padding-left: 18px;
+
+  border-top: 1px solid rgba($green-500, 0.1);
+}
+
+//------------------------title---------------------------//
+
+.title {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+
+  color: $black;
+
+  &--big {
+    @include b-s36-h42;
+  }
+
+  &--small {
+    @include b-s18-h21;
   }
 }
 </style>

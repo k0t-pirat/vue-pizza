@@ -9,15 +9,15 @@ import { DATA_TRANSFER_PAYLOAD } from "@/common/constants";
 
 const emit = defineEmits(["drop"]);
 
-const onDrop = ({ dataTranfer }) => {
-  if (!dataTranfer) {
+const onDrop = ({ dataTransfer }) => {
+  if (!dataTransfer) {
     return;
   }
 
-  const payload = dataTranfer.getData(DATA_TRANSFER_PAYLOAD);
+  const payload = dataTransfer.getData(DATA_TRANSFER_PAYLOAD);
 
   if (payload) {
-    const transferData = dataTranfer.getData(DATA_TRANSFER_PAYLOAD);
+    const transferData = dataTransfer.getData(DATA_TRANSFER_PAYLOAD);
     const data = JSON.parse(transferData);
     emit("drop", data);
   }

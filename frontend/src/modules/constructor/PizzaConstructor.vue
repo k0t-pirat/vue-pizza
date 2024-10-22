@@ -1,7 +1,10 @@
 <template>
   <div class="content__constructor">
     <app-drop @drop="emit('drop', $event.value)">
-      <div class="pizza" :class="`pizza--foundation--${dough}-${sauce}`">
+      <div
+        class="pizza"
+        :class="`pizza--foundation--${doughSizeMapper[dough]}-${sauce}`"
+      >
         <div class="pizza__wrapper">
           <div
             v-for="(value, key) in pizzaIngreients"
@@ -24,6 +27,10 @@ import AppDrop from "@/common/components/AppDrop.vue";
 import { computed } from "vue";
 const TWO_INGREDIENTS = 2;
 const THREE_INGREDIENTS = 3;
+const doughSizeMapper = {
+  light: "small",
+  large: "big",
+};
 
 const props = defineProps({
   dough: {
