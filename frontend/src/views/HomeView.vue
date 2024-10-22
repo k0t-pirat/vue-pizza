@@ -296,7 +296,6 @@ const sizeItems = sizesJSON.map(normalizeSize);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 80% 80%;
-
   }
 
   &--tomatoes::before {
@@ -611,8 +610,7 @@ const sizeItems = sizesJSON.map(normalizeSize);
 
     width: 100%;
     height: 100%;
-
-    content: '';
+    content: "";
 
     background-image: inherit;
   }
@@ -1123,6 +1121,4 @@ const sizeItems = sizesJSON.map(normalizeSize);
     }
   }
 }
-
-
 </style>
