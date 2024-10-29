@@ -14,7 +14,7 @@
       <router-link :to="{ name: 'cart' }">0 ₽</router-link>
     </div>
     <div class="header__user">
-      <router-link :to="{ name: 'profile' }">
+      <router-link :to="{ name: 'user' }">
         <picture>
           <source
             type="image/webp"
@@ -33,12 +33,18 @@
         </picture>
         <span>Василий Ложкин</span>
       </router-link>
-      <router-link :to="{ name: 'home' }" class="header__logout">
-        <span>Выйти</span>
+      <!---- temp ----->
+      <router-link :to="{ name: 'login' }" class="header__login">
+        <span>Войти</span>
       </router-link>
+      <!-- <router-link :to="{ name: 'home' }" class="header__logout">
+        <span>Выйти</span>
+      </router-link> -->
     </div>
     <!-- <div class="header__user">
-      <a href="#" class="header__login"><span>Войти</span></a>
+      <router-link :to="{ name: 'login' }" class="header__login"
+        ><span>Войти</span></router-link
+      >
     </div> -->
   </header>
 </template>

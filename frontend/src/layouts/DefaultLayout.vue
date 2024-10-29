@@ -10,7 +10,7 @@ import DefaultHeader from "@/layouts/DefaultHeader.vue";
 </script>
 
 <style lang="scss" scoped>
-default-layout {
+.default-layout {
   height: 100%;
   display: flex;
   flex-direction: column;

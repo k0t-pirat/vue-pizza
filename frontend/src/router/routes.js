@@ -18,8 +18,8 @@ export const routes = [
     meta: { layout: "DefaultLayout" },
   },
   {
-    path: "/profile",
-    name: "profile",
+    path: "/user",
+    name: "user",
     component: () => import("@/views/UserView.vue"),
     meta: { layout: "DefaultLayout" },
     children: [
