@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-const props = defineProps({
+defineProps({
   modelValue: {
     type: String,
     default: "",
@@ -38,12 +38,6 @@ const props = defineProps({
     default: () => [],
   },
 });
-
-const onInput = (evt) => {
-  console.log('value', evt.target.value)
-}
-
-console.log('modelValue', props.modelValue)
 
 const emit = defineEmits(["update:modelValue"]);
 </script>
