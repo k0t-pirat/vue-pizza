@@ -68,7 +68,7 @@ import DoughSelector from "@/modules/constructor/DoughSelector.vue";
 import IngredientsSelector from "@/modules/constructor/IngredientsSelector.vue";
 import PizzaConstructor from "@/modules/constructor/PizzaConstructor.vue";
 import SauceSelector from "@/modules/constructor/SauceSelector.vue";
-import { computed, reactive, toRaw, watch } from "vue";
+import { computed, reactive } from "vue";
 
 const doughItems = doughJSON.map(normalizeDough);
 const ingredientItems = ingredientsJSON.map(normalizeIngredients);
@@ -84,10 +84,6 @@ const pizza = reactive({
     acc[item.value] = 0;
     return acc;
   }, {}),
-});
-
-watch(pizza, (nextPizza) => {
-  console.log("pizza", toRaw(nextPizza));
 });
 
 const price = computed(() => {
