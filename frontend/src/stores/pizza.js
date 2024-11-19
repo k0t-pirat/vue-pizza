@@ -45,6 +45,9 @@ export const usePizzaStore = defineStore("pizza", {
     },
   },
   actions: {
+    setIndex(index) {
+      this.index = index;
+    },
     setName(name) {
       this.name = name;
     },
@@ -66,7 +69,19 @@ export const usePizzaStore = defineStore("pizza", {
         quantity: 1,
       });
     },
-    incremenetIngredientQuantity(ingredientId, count) {
+    incrementIngredientQuantity(ingredientId) {
+      const ingredientIdx = this.ingredients.findIndex(
+        (item) => item.ingredientId === ingredientId
+      );
+
+      if (ingredientIdx === -1) {
+        this.addIngredient(ingredientId);
+        return;
+      }
+
+      this.ingredients[ingredientIdx].quantity++;
+    },
+    setIngredientQuantity(ingredientId, count) {
       const ingredientIdx = this.ingredients.findIndex(
         (item) => item.ingredientId === ingredientId
       );
