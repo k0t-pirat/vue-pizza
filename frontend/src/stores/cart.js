@@ -1,3 +1,5 @@
+import { pizzaPrice } from "@/common/helpers/pizza-price";
+import { useDataStore } from "@/stores/data";
 import { defineStore } from "pinia";
 
 export const useCartStore = defineStore("cart", {
@@ -12,6 +14,46 @@ export const useCartStore = defineStore("cart", {
     pizzas: [],
     misc: [],
   }),
-  getters: {},
+  getters: {
+    pizzasExtended: (state) => {
+      const data = useDataStore();
+
+      return state.pizzas.map((pizza) => {
+        const pizzaIngredientIds = pizza.ingredients.map((i) => i.ingredientId);
+
+        return {
+          name: pizza.name,
+          quantity: pizza.quantity,
+          dough: pizza.doughs.find((i) => i.id === pizza.doughId),
+          size: pizza.sizes.find((i) => i.id === pizza.sizeId),
+          sauce: pizza.sauces.find((i) => i.id === pizza.sauceId),
+          ingredients: data.ingredients.filter((i) =>
+            pizzaIngredientIds.includes(i.id)
+          ),
+          price: pizzaPrice(pizza),
+        };
+      });
+    },
+    miscExtended: (state) => {
+      const data = useDataStore();
+
+      return data.misc.map((misc) => {
+        return {
+          ...misc,
+          quantity: state.misc.find((i) => (i.miscId = misc.id))?.quantity ?? 0,
+        };
+      });
+    },
+    total: (state) => {
+      const pizzaPrices = state.pizzasExtended
+        .map((item) => item.quantity * item.price)
+        .reduce((acc, val) => acc + val, 0);
+      const miscPrices = state.miscExtended
+        .map((item) => item.quantity * item.price)
+        .reduce((acc, val) => acc + val, 0);
+
+      return pizzaPrices + miscPrices;
+    },
+  },
   actions: {},
 });
