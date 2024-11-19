@@ -27,6 +27,7 @@
           <label class="input">
             <span class="visually-hidden">Название пиццы</span>
             <input
+              v-model="name"
               type="text"
               name="pizza_name"
               placeholder="Введите название пиццы"
@@ -41,7 +42,7 @@
           />
 
           <div class="content__result">
-            <p>Итого: 0 ₽</p>
+            <p>Итого: {{ pizzaStore.price }} ₽</p>
             <button
               type="button"
               class="button"

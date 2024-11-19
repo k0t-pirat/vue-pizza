@@ -24,9 +24,9 @@ export const useCartStore = defineStore("cart", {
         return {
           name: pizza.name,
           quantity: pizza.quantity,
-          dough: pizza.doughs.find((i) => i.id === pizza.doughId),
-          size: pizza.sizes.find((i) => i.id === pizza.sizeId),
-          sauce: pizza.sauces.find((i) => i.id === pizza.sauceId),
+          dough: data.doughs.find((i) => i.id === pizza.doughId),
+          size: data.sizes.find((i) => i.id === pizza.sizeId),
+          sauce: data.sauces.find((i) => i.id === pizza.sauceId),
           ingredients: data.ingredients.filter((i) =>
             pizzaIngredientIds.includes(i.id)
           ),

@@ -4,16 +4,16 @@
 
     <ul class="ingredients__list">
       <li
-        v-for="ingredientType in items"
-        :key="ingredientType.id"
+        v-for="ingredient in items"
+        :key="ingredient.id"
         class="ingredients__item"
       >
         <app-drag
-          :data-transfer="ingredientType"
+          :data-transfer="ingredient"
           :draggable="values[ingredient.id] < MAX_INGREDIENT_COUNT"
         >
-          <span class="filling" :class="`filling--${ingredientType.value}`">
-            {{ ingredientType.name }}
+          <span class="filling" :class="`filling--${ingredient.value}`">
+            {{ ingredient.name }}
           </span>
         </app-drag>
         <app-counter
