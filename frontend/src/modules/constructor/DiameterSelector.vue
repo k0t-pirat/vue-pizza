@@ -13,10 +13,10 @@
           <input
             type="radio"
             name="diameter"
-            :value="sizeType.value"
+            :value="sizeType.id"
             class="visually-hidden"
-            :checked="sizeType.value === modelValue"
-            @input="emit('update:modelValue', sizeType.value)"
+            :checked="sizeType.id === modelValue"
+            @input="emit('update:modelValue', sizeType.id)"
           />
           <span>{{ sizeType.name }}</span>
         </label>
@@ -29,7 +29,7 @@
 defineProps({
   modelValue: {
     type: String,
-    default: "",
+    required: true,
   },
   items: {
     type: Array,
