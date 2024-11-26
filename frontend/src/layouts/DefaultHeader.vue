@@ -11,10 +11,10 @@
       </router-link>
     </div>
     <div class="header__cart">
-      <router-link :to="{ name: 'cart' }">0 ₽</router-link>
+      <router-link :to="{ name: 'cart' }">{{ cartStore.total }} ₽</router-link>
     </div>
     <div class="header__user">
-      <router-link :to="{ name: 'user' }">
+      <router-link :to="{ name: 'profile' }">
         <picture>
           <source
             type="image/webp"
@@ -33,21 +33,35 @@
         </picture>
         <span>Василий Ложкин</span>
       </router-link>
-      <!---- temp ----->
-      <router-link :to="{ name: 'login' }" class="header__login">
+
+      <div
+        v-if="authStore.isAuthenticated"
+        class="header__logout"
+        @click="logout"
+      >
+        <span>Выйти</span>
+      </div>
+      <router-link v-else :to="{ name: 'login' }" class="header__login">
         <span>Войти</span>
       </router-link>
-      <!-- <router-link :to="{ name: 'home' }" class="header__logout">
-        <span>Выйти</span>
-      </router-link> -->
     </div>
-    <!-- <div class="header__user">
-      <router-link :to="{ name: 'login' }" class="header__login"
-        ><span>Войти</span></router-link
-      >
-    </div> -->
   </header>
 </template>
+
+<script setup>
+import { useAuthStore } from "@/stores/auth";
+import { useRouter } from "vue-router";
+import { useCartStore } from "@/stores/cart";
+
+const authStore = useAuthStore();
+const cartStore = useCartStore();
+const router = useRouter();
+
+const logout = async () => {
+  await authStore.logout();
+  await router.replace({ name: "login" });
+};
+</script>
 
 <style lang="scss" scoped>
 @import "@/assets/scss/app.scss";
