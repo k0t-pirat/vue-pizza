@@ -1,5 +1,7 @@
 import axios, { AxiosError } from "axios";
 
+const BASE_URL = "http://localhost:3000/";
+
 class ApiError extends Error {
   constructor(message, response) {
     super(message);
@@ -26,7 +28,7 @@ export class ApiService {
   _wrapper1(method, url) {
     return async () => {
       try {
-        const response = await method(url);
+        const response = await method(BASE_URL + url);
         return {
           __state: "success",
           ...response,
@@ -44,7 +46,7 @@ export class ApiService {
   _wrapper2(method, url, payload) {
     return async () => {
       try {
-        const response = await method(url, payload);
+        const response = await method(BASE_URL + url, payload);
         return {
           __state: "success",
           ...response,

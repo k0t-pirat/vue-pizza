@@ -14,7 +14,7 @@
       <router-link :to="{ name: 'cart' }">{{ cartStore.total }} ₽</router-link>
     </div>
     <div class="header__user">
-      <router-link :to="{ name: 'profile' }">
+      <router-link v-if="authStore.isAuthenticated" :to="{ name: 'profile' }">
         <picture>
           <source
             type="image/webp"
@@ -26,12 +26,12 @@
           <img
             src="@/assets/img/users/user5.jpg"
             srcset="@/assets/img/users/user5@2x.jpg"
-            alt="Василий Ложкин"
+            :alt="authStore.user.name"
             width="32"
             height="32"
           />
         </picture>
-        <span>Василий Ложкин</span>
+        <span>{{ authStore.user.name }}</span>
       </router-link>
 
       <div

@@ -15,7 +15,7 @@
             name="dough"
             :value="doughType.id"
             class="visually-hidden"
-            :checked="(doughType.id = modelValue)"
+            :checked="doughType.id === modelValue"
             @input="emit('update:modelValue', doughType.id)"
           />
           <!-- <img :src="getImage(doughType.image)" :alt="doughType.name" /> -->
