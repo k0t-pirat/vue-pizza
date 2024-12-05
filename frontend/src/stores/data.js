@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import {
-  fixDoughs,
+  fixItems,
+  normalizeDough,
   normalizeIngredients,
   normalizeSauces,
   normalizeSize,
@@ -40,35 +41,35 @@ export const useDataStore = defineStore("data", {
     async loadDoughs() {
       const res = await resources.dough.getDoughs();
       if (res.__state === "success") {
-        this.doughs = fixDoughs(res.data);
+        this.doughs = fixItems(res.data, normalizeDough);
       }
     },
 
     async loadIngredients() {
       const res = await resources.ingredient.getIngredients();
       if (res.__state === "success") {
-        this.ingredients = res.data.map(normalizeIngredients);
+        this.ingredients = fixItems(res.data, normalizeIngredients);
       }
     },
 
     async loadSauces() {
       const res = await resources.sauce.getSauces();
       if (res.__state === "success") {
-        this.sauces = res.data.map(normalizeSauces);
+        this.sauces = fixItems(res.data, normalizeSauces);
       }
     },
 
     async loadSizes() {
       const res = await resources.size.getSizes();
       if (res.__state === "success") {
-        this.sizes = res.data.map(normalizeSize);
+        this.sizes = fixItems(res.data, normalizeSize);
       }
     },
 
     async loadMisc() {
       const res = await resources.misc.getMisc();
       if (res.__state === "success") {
-        this.misc = res.data;
+        this.misc = fixItems(res.data);
       }
     },
   },

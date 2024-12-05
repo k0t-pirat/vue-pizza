@@ -42,7 +42,7 @@ export const useCartStore = defineStore("cart", {
       return data.misc.map((misc) => {
         return {
           ...misc,
-          quantity: state.misc.find((i) => (i.miscId = misc.id))?.quantity ?? 0,
+          quantity: state.misc.find((i) => i.miscId === misc.id)?.quantity ?? 0,
         };
       });
     },
@@ -116,6 +116,28 @@ export const useCartStore = defineStore("cart", {
     },
     setComment(comment) {
       this.address.comment = comment;
+    },
+    resetAddress() {
+      this.address = {
+        street: "",
+        building: "",
+        flat: "",
+        comment: "",
+      };
+    },
+    unsetAddress() {
+      this.address = null;
+    },
+    reset() {
+      this.phone = "";
+      this.address = {
+        street: "",
+        building: "",
+        flat: "",
+        comment: "",
+      };
+      this.pizzas = [];
+      this.misc = [];
     },
     async publishOrder() {
       const authStore = useAuthStore();

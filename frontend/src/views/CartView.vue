@@ -106,10 +106,24 @@
             <label class="cart-form__select">
               <span class="cart-form__label">Получение заказа:</span>
 
-              <select name="test" class="select">
-                <option value="self">Заберу сам</option>
+              <select
+                name="test"
+                class="select"
+                @input="deliveryOption = $event.target.value"
+              >
+                <option :value="-2">Заберу сам</option>
+                <option :value="-1">Новый адрес</option>
+                <option
+                  v-for="address in profileStore.addresses"
+                  :key="address.id"
+                  :value="address.id"
+                >
+                  {{ address.name }}
+                </option>
+
+                <!-- <option value="self">Заберу сам</option>
                 <option value="new">Новый адрес</option>
-                <option value="home">Дом</option>
+                <option value="home">Дом</option> -->
               </select>
             </label>
 
@@ -123,7 +137,7 @@
               />
             </label>
 
-            <div v-if="deliveryOption === 'new'" class="cart-form__address">
+            <div v-if="isNewAddress" class="cart-form__address">
               <span class="cart-form__label">Новый адрес:</span>
 
               <div class="cart-form__input">
@@ -177,18 +191,34 @@
 
 <script setup>
 import AppCounter from "@/common/components/AppCounter.vue";
+import resources from "@/services/resources";
+import { useAuthStore } from "@/stores/auth";
 import { useCartStore } from "@/stores/cart";
 import { usePizzaStore } from "@/stores/pizza";
 import { useProfileStore } from "@/stores/profile";
 import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 
+const authStore = useAuthStore();
 const cartStore = useCartStore();
 const pizzaStore = usePizzaStore();
 const profileStore = useProfileStore();
 
 const router = useRouter();
-const deliveryOption = ref("self");
+const deliveryOption = ref(-2);
+const isNewAddress = computed(() => Number(deliveryOption.value) === -1);
+const isNoAddress = computed(() => Number(deliveryOption.value) === -2);
+const deliveryAddress = computed(() => {
+  if (isNewAddress.value) {
+    return null;
+  } else {
+    return (
+      profileStore.addresses.find(
+        (addr) => addr.id === Number(deliveryOption.value)
+      ) ?? null
+    );
+  }
+});
 
 const phone = computed({
   get() {
@@ -235,11 +265,23 @@ const editPizza = async (index) => {
 };
 
 const submit = async () => {
-  if (deliveryOption.value === "home") {
-    cartStore.setAddress(profileStore.addresses[0]);
+  if (isNoAddress.value) {
+    cartStore.unsetAddress();
+  } else if (!isNewAddress.value) {
+    cartStore.setAddress(deliveryAddress.value);
   }
-  await router.push({ name: "success" });
+
+  const res = await cartStore.publishOrder();
+  if (res.__state === "success") {
+    authStore.isAuthenticated && (await profileStore.loadOrders());
+    await router.push({ name: "success" });
+    cartStore.$reset();
+  } else if (isNoAddress.value) {
+    cartStore.resetAddress();
+  }
 };
+
+resources.address.getAddresses();
 
 const getImage = (image) => {
   return new URL(`../assets/img/${image}`, import.meta.url).href;

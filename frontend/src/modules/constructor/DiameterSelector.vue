@@ -28,7 +28,7 @@
 <script setup>
 defineProps({
   modelValue: {
-    type: String,
+    type: Number,
     required: true,
   },
   items: {

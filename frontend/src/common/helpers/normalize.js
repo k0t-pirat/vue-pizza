@@ -3,7 +3,7 @@ import ingredients from "@/common/data/ingredients";
 import sauces from "@/common/data/sauces";
 import sizes from "@/common/data/sizes";
 
-const normalizeDough = (dough) => {
+export const normalizeDough = (dough) => {
   return {
     ...dough,
     value: doughSizes[dough.id],
@@ -31,14 +31,16 @@ export const normalizeSauces = (sauce) => {
   };
 };
 
-export const fixDoughs = (doughs) => {
+export const fixItems = (items, normalizeItem) => {
   const fixedItems = [];
-  const doughNames = new Set();
+  const itemNames = new Set();
 
-  for (const dough of doughs) {
-    if (!doughNames.has(dough.name)) {
-      doughNames.add(dough.name);
-      fixedItems.push(normalizeDough(dough));
+  for (const item of items) {
+    if (!itemNames.has(item.name)) {
+      itemNames.add(item.name);
+      const normalizedItem =
+        typeof normalizeItem === "function" ? normalizeItem(item) : item;
+      fixedItems.push(normalizedItem);
     }
   }
 
