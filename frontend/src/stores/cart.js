@@ -139,6 +139,21 @@ export const useCartStore = defineStore("cart", {
       this.pizzas = [];
       this.misc = [];
     },
+    load(order) {
+      this.phone = order.phone;
+      this.pizzas =
+        order?.orderPizzas?.map((pizza) => ({
+          name: pizza.name,
+          sauceId: pizza.sauce.id,
+          doughId: pizza.dough.id,
+          sizeId: pizza.size.id,
+          quantity: pizza.quantity,
+          ingredients: pizza.ingredients.map((ingredient) => ({
+            ingredientId: ingredient.id,
+            quantity: ingredient.quantity,
+          })),
+        })) ?? [];
+    },
     async publishOrder() {
       const authStore = useAuthStore();
 

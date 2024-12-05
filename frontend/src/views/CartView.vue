@@ -137,27 +137,49 @@
               />
             </label>
 
-            <div v-if="isNewAddress" class="cart-form__address">
-              <span class="cart-form__label">Новый адрес:</span>
+            <div v-if="!isNoAddress" class="cart-form__address">
+              <span class="cart-form__label">
+                {{ isNewAddress ? "Новый адрес" : "Существующий адрес" }}:
+              </span>
 
               <div class="cart-form__input">
                 <label class="input">
                   <span>Улица*</span>
-                  <input v-model="street" required type="text" name="street" />
+                  <input
+                    v-model="street"
+                    required
+                    type="text"
+                    name="street"
+                    :style="!isNewAddress ? 'opacity: 0.5' : ''"
+                    :disabled="!isNewAddress"
+                  />
                 </label>
               </div>
 
               <div class="cart-form__input cart-form__input--small">
                 <label class="input">
                   <span>Дом*</span>
-                  <input v-model="building" required type="text" name="house" />
+                  <input
+                    v-model="building"
+                    required
+                    type="text"
+                    name="house"
+                    :style="!isNewAddress ? 'opacity: 0.5' : ''"
+                    :disabled="!isNewAddress"
+                  />
                 </label>
               </div>
 
               <div class="cart-form__input cart-form__input--small">
                 <label class="input">
                   <span>Квартира</span>
-                  <input v-model="flat" type="text" name="apartment" />
+                  <input
+                    v-model="flat"
+                    type="text"
+                    name="apartment"
+                    :style="!isNewAddress ? 'opacity: 0.5' : ''"
+                    :disabled="!isNewAddress"
+                  />
                 </label>
               </div>
             </div>
@@ -191,7 +213,6 @@
 
 <script setup>
 import AppCounter from "@/common/components/AppCounter.vue";
-import resources from "@/services/resources";
 import { useAuthStore } from "@/stores/auth";
 import { useCartStore } from "@/stores/cart";
 import { usePizzaStore } from "@/stores/pizza";
@@ -212,11 +233,14 @@ const deliveryAddress = computed(() => {
   if (isNewAddress.value) {
     return null;
   } else {
-    return (
+    const existedAddress =
       profileStore.addresses.find(
         (addr) => addr.id === Number(deliveryOption.value)
-      ) ?? null
-    );
+      ) ?? null;
+    if (existedAddress) {
+      cartStore.setAddress(existedAddress);
+    }
+    return existedAddress;
   }
 });
 
@@ -280,8 +304,6 @@ const submit = async () => {
     cartStore.resetAddress();
   }
 };
-
-resources.address.getAddresses();
 
 const getImage = (image) => {
   return new URL(`../assets/img/${image}`, import.meta.url).href;

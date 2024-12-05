@@ -41,7 +41,7 @@
       >
         <div class="product">
           <img
-            :src="getPublicImage('/public/img/product.svg')"
+            :src="getImage('product.svg')"
             class="product__img"
             width="56"
             height="56"
@@ -70,7 +70,7 @@
           :src="getPublicImage(misc.image)"
           width="20"
           height="30"
-          alt="Coca-Cola 0,5 литра"
+          :alt="misc.name"
         />
         <p>
           <span>{{ misc.name }}&nbsp;×&nbsp;{{ misc.quantity }}</span>
@@ -79,7 +79,13 @@
       </li>
     </ul>
 
-    <p class="order__address">Адрес доставки: {{ order.orderAddress?.name }}</p>
+    <p class="order__address">
+      {{
+        order.orderAddress
+          ? `Адрес доставки: ${order.orderAddress.name}`
+          : "Самовывоз"
+      }}
+    </p>
   </section>
 </template>
 
@@ -96,6 +102,9 @@ const router = useRouter();
 const loadOrder = (order) => {
   cartStore.load(order);
   router.push({ name: "cart" });
+};
+const getImage = (image) => {
+  return new URL(`../assets/img/${image}`, import.meta.url).href;
 };
 </script>
 
